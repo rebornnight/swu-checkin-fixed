@@ -1,0 +1,31 @@
+name: 自动签到
+
+on:
+  schedule:
+    # 每天 21:30 北京时间（13:30 UTC）
+    - cron: '30 13 * * *'
+  workflow_dispatch:  # 支持手动触发
+
+jobs:
+  checkin:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: 安装系统依赖（ddddocr 需要）
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgl1-mesa-glx libglib2.0-0
+
+      - name: 安装 Python 依赖
+        run: pip install requests ddddocr
+
+      - name: 执行签到
+        env:
+          SWU_USERNAME: ${{ secrets.SWU_USERNAME }}
+          SWU_PASSWORD: ${{ secrets.SWU_PASSWORD }}
+        run: python check_in.py
