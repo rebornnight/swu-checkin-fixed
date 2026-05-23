@@ -5,6 +5,8 @@ import urllib.parse
 from io import BytesIO
 from des import strEnc
 
+requests.trust_env = False  # 全局跳过系统代理
+
 
 def _solve_captcha(session, base_url, timeout):
     """获取验证码图片并识别"""
@@ -130,8 +132,8 @@ def get_token(username: str, password: str, timeout=10):
         raise Exception("登录失败：无法获取ST参数")
     ST = response.url.split("ticket=")[1]
 
-    # Step 11: 兑换 token
-    token_response = requests.get(
+    # Step 11: 兑换 token（用 session 跳过系统代理）
+    token_response = session.get(
         f"https://of.swu.edu.cn/gateway/fighter-middle/api/integrate/uaap/cas/exchange-token?token={ST}&remember=true",
         timeout=timeout
     ).json()
