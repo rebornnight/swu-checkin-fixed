@@ -25,6 +25,7 @@ def verify(username, password, timeout=10):
     session.headers.update({
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
     })
+    session.trust_env = False
     base_url = "https://idm.swu.edu.cn"
 
     # Step 1: 跟随到 uaaap 登录页
