@@ -5,13 +5,16 @@ import requests
 from get_info import get_token, get_student_id, get_dormitory, get_transition_today
 from verify import verify
 
+_session = requests.Session()
+_session.trust_env = False
+
 
 def check_in(username: str, password: str, timeout: int = 10):
     def vacation_enable(token, timeout):
         headers = {"fighter-auth-token": token}
         url = 'https://of.swu.edu.cn/gateway/fighter-baida/api/flow-ext/start-process-instance-by-key'
         params = {'processDefinitionKey': 'XSQJXJ'}
-        response = requests.post(headers=headers, params=params, json={}, url=url, timeout=timeout)
+        response = _session.post(headers=headers, params=params, json={}, url=url, timeout=timeout)
         if response.json()["code"] == 200 or response.json()["code"] == 1100:
             return 0
         else:
@@ -56,7 +59,7 @@ def check_in(username: str, password: str, timeout: int = 10):
                     "tip": "当前在签到范围内"
                 }
             }
-            response = requests.post(url, headers=headers, params=params, data=json.dumps(payload), timeout=timeout).json()["data"]
+            response = _session.post(url, headers=headers, params=params, data=json.dumps(payload), timeout=timeout).json()["data"]
             return response
         except (requests.exceptions.Timeout, requests.exceptions.ConnectionError):
             return 4

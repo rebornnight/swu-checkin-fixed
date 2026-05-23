@@ -5,7 +5,12 @@ import urllib.parse
 from io import BytesIO
 from des import strEnc
 
-requests.trust_env = False  # 全局跳过系统代理
+# 全局 session，跳过系统代理
+_session = requests.Session()
+_session.trust_env = False
+_session.headers.update({
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+})
 
 
 def _solve_captcha(session, base_url, timeout):
@@ -146,14 +151,14 @@ def get_token(username: str, password: str, timeout=10):
 def get_student_id(token, timeout=10):
     url = "https://of.swu.edu.cn/gateway/fighter-middle/api/auth/user?appType=fighter-portal"
     headers = {"fighter-auth-token": token}
-    student_id = requests.get(url, headers=headers, timeout=timeout).json()["data"]["subject"]["username"]
+    student_id = _session.get(url, headers=headers, timeout=timeout).json()["data"]["subject"]["username"]
     return student_id
 
 
 def get_dormitory(token, timeout=10):
     url = "https://of.swu.edu.cn/gateway/fighter-baida/api/cqlc/getDormitory"
     headers = {"fighter-auth-token": token, "Content-Type": "application/json;charset=UTF-8"}
-    response = requests.post(url, headers=headers, data=json.dumps({}), timeout=timeout)
+    response = _session.post(url, headers=headers, data=json.dumps({}), timeout=timeout)
     return response.json()
 
 
@@ -161,5 +166,5 @@ def get_transition_today(token, timeout=10):
     url = "https://of.swu.edu.cn//gateway/fighter-baida/api/cqtj/getTransitionByToday"
     headers = {"fighter-auth-token": token}
     data = {"pageNum": 1, "pageSize": 1}
-    response = requests.post(url, headers=headers, data=data, timeout=timeout).json()["data"]["records"]
+    response = _session.post(url, headers=headers, data=data, timeout=timeout).json()["data"]["records"]
     return response[0] if response else None
