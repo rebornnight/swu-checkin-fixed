@@ -2,8 +2,8 @@ name: 自动签到
 
 on:
   schedule:
-    # 每天 22:45 北京时间（14:45 UTC）
-    - cron: '45 14 * * *'
+    # 每天 21:30 北京时间（13:30 UTC）
+    - cron: '30 13 * * *'
   workflow_dispatch:  # 支持手动触发
 
 jobs:
