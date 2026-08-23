@@ -27,13 +27,48 @@
 
 ### 本地运行
 
-```bash
-# 安装依赖
-pip install requests ddddocr
+#### 环境要求
 
-# 运行签到
-SWU_USERNAME="你的学号" SWU_PASSWORD="你的密码" python check_in.py
+- Python 3.8+（建议 3.11，与 CI 环境一致）
+- 依赖见 `requirements.txt`：`requests` + `ddddocr`（ddddocr 仅用于自动识别登录验证码，可不装，见下文"验证码处理"）
+
+#### 步骤
+
+```bash
+# 1. 安装依赖（建议先创建虚拟环境）
+python -m venv .venv
+.venv\Scripts\activate        # Windows
+# source .venv/bin/activate  # Linux / macOS
+pip install -r requirements.txt
+
+# 2. 设置环境变量（学号 + 密码）
+# Windows PowerShell
+$env:SWU_USERNAME = "你的学号"
+$env:SWU_PASSWORD = "你的密码"
+# Linux / macOS
+export SWU_USERNAME="你的学号"
+export SWU_PASSWORD="你的密码"
+
+# 3. 运行签到
+python check_in.py
 ```
+
+程序会打印签到结果（成功 / 已签到 / 暂无任务 / 账号错误等），对应返回码见下表。
+
+#### 验证码处理
+
+登录时自动从 `idm.swu.edu.cn` 获取验证码：
+
+- **已安装 ddddocr** → 自动 OCR 识别，无需人工干预；
+- **未安装 ddddocr**（ImportError）→ 验证码图片保存为当前目录 `captcha.png`，脚本提示你手动输入验证码（直接输入图片上的字符回车即可）；
+- 识别失败时按空验证码重试，若连续失败请检查网络能否正常访问 `idm.swu.edu.cn`。
+
+#### 常见问题
+
+- **提示缺少账号密码** → 先设置 `SWU_USERNAME` / `SWU_PASSWORD` 环境变量再运行；
+- **返回码 3（账号或密码验证失败）** → 检查学号/密码是否正确、验证码是否识别错误；
+- **返回码 4（连接错误或超时）** → 脚本已通过 `trust_env=False` 跳过系统代理，若你的网络必须走代理才能访问学校站点，请自行适配；
+- **只验证账号密码** → 可临时用 `python -c "from verify import verify; print(bool(verify('学号', '密码')))"`（`verify.py` 为库，无独立入口）。
 
 ### GitHub Actions + cron-job.org 定时签到
 
