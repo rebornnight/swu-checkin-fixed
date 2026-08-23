@@ -1,6 +1,6 @@
 # swu-checkin-fixed
 
-本项目用于西南大学钉钉无视地理位置自动定位打卡，修复了 2026 年 4 月 SWU CAS 登录升级后原 [swu-checkin](https://github.com/ptbb2005/swu-checkin) 项目失效的问题。改变了原来的硬编码方式和登录方式，签到方式基本不变。
+本项目用于西南大学钉钉无视地理位置自动定位打卡，修复了 2026 年 4 月 SWU CAS 登录升级后原 [swu-checkin](https://github.com/Sorynthia/swu-checkin) 项目失效的问题。改变了原来的硬编码方式和登录方式，签到方式基本不变。
 
 每天 21:30（北京时间）自动签到，支持 GitHub Actions 定时运行。
 
@@ -68,4 +68,12 @@ SWU_USERNAME="你的学号" SWU_PASSWORD="你的密码" python check_in.py
 
 ## 项目来源
 
-本项目源自 [ptbb2005/swu-checkin](https://github.com/ptbb2005/swu-checkin) 的签到逻辑，由 [@yingluqing574-boop](https://github.com/yingluqing574-boop) 维护修复。
+本项目源自 [Sorynthia/swu-checkin](https://github.com/Sorynthia/swu-checkin) 的签到逻辑，由 [@rebornnight](https://github.com/rebornnight) 维护修复。
+
+## 免责声明
+
+1. 本项目仅供**学习交流与技术研究**使用，请勿用于任何违反校规校纪、法律法规的用途。
+2. 使用者应自行了解并遵守西南大学及当地关于考勤、签到的相关规定；使用本项目产生的一切后果（包括但不限于学校处分、账号封禁、数据泄露等）**由使用者自行承担**。
+3. 本项目涉及自动登录与打卡操作，请合理使用，不建议代替本人真实出勤行为。
+4. 作者不对因使用本项目而造成的任何直接或间接损失负责，亦不对第三方修改、二次分发后的版本负责。
+5. 使用本项目即视为同意以上条款；不同意请勿使用。
