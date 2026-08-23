@@ -72,7 +72,9 @@ python check_in.py
 
 ### GitHub Actions + cron-job.org 定时签到
 
-> 说明：本仓库的 workflow 不再内置 `schedule` 定时，改为由 **cron-job.org** 每天定时调用 GitHub Actions API 触发 `workflow_dispatch` 运行。
+> 说明：本仓库的 workflow 不再内置 `schedule` 定时。由于 **GitHub Actions 的 `schedule` 定时触发非常不稳定**（常出现延迟数十分钟甚至漏触发的情况），因此改用第三方 **cron-job.org** 每天定时调用 GitHub Actions API 触发 `workflow_dispatch` 运行，触发准时且免费。
+>
+> 免费额度：cron-job.org 免费计划提供 **每年 10,000 次请求**（最小执行间隔 5 分钟）。本项目每天仅触发 1 次，一年约 365 次，**远低于免费额度**，无需付费。
 
 1. Fork / 推送本仓库到 GitHub
 2. 在仓库 Settings → Secrets and variables → Actions 中添加：
