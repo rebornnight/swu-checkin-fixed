@@ -189,6 +189,12 @@ python -c "from verify import verify; print(verify('学号', '密码'))"
 
 本项目源自 [Sorynthia/swu-checkin](https://github.com/Sorynthia/swu-checkin) 的签到逻辑，由 [@rebornnight](https://github.com/rebornnight) 维护修复。
 
+## 赞赏支持
+
+如果这个脚本帮到了你，欢迎扫码支持一下～开发维护不易，你的鼓励是持续更新的动力 🤗
+
+<p align="center"><img src="assets/sponsor.jpg" width="220" alt="赞赏码"></p>
+
 ## 免责声明
 
 1. 本项目仅供**学习交流与技术研究**使用，请勿用于任何违反校规校纪、法律法规的用途。
